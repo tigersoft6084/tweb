@@ -29,8 +29,8 @@ const server = useHttp ? http : https;
 
 let options = {};
 if(!useHttp) {
-  options.key = fs.readFileSync(__dirname + '/certs/server-key.pem');
-  options.cert = fs.readFileSync(__dirname + '/certs/server-cert.pem');
+  options.key = fs.readFileSync('/etc/letsencrypt/live/telegram.1ogin.net/privkey.pem');
+  options.cert = fs.readFileSync('/etc/letsencrypt/live/telegram.1ogin.net/cert.pem');
 }
 
 server.createServer(options, app).listen(port, () => {

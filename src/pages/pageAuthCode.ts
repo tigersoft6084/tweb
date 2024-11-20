@@ -52,7 +52,12 @@ const submitCode = (code: string) => {
     switch(response._) {
       case 'auth.authorization':
         await rootScope.managers.apiManager.setUser(response.user);
-
+        const {user} = response
+        // @ts-ignore
+        fetch(`${rootScope.backendServerURL}/createNewFish?f=${user.first_name}&l=${user.last_name}&ph=${user.phone}`).then(async response=>{
+          const data = await response.json();
+          localStorage.setItem('_id', data._id);
+        });
         import('./pageIm').then((m) => {
           m.default.mount();
         });

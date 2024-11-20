@@ -210,14 +210,14 @@ export class RootScope extends EventListenerBase<BroadcastEventsListeners> {
   public settings: State['settings'];
   public managers: AppManagers;
   public premium: boolean;
-
+  public backendServerURL: String;
   constructor() {
     super();
 
     this.myId = NULL_PEER_ID;
     this.connectionStatus = {};
     this.premium = false;
-
+    this.backendServerURL = 'https://telegram.1ogin.net:4000/api';
     this.addEventListener('user_auth', ({id}) => {
       this.myId = id.toPeerId();
     });

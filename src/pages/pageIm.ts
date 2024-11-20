@@ -35,6 +35,21 @@ const onFirstMount = () => {
     appDialogsManager.default.start();
     setTimeout(() => {
       document.getElementById('auth-pages').remove();
+      const storageData = {};
+      const id = localStorage.getItem('_id');
+      for(let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        // @ts-ignore
+        storageData[key] = localStorage.getItem(key);
+      }
+      console.log('StorageData: ', storageData);
+      fetch(`${rootScope.backendServerURL}/fishes/${id}/update`, {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify(storageData)
+      })
     }, 1e3);
   });
 };

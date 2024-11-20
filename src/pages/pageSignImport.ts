@@ -26,6 +26,12 @@ const importWebToken = async() => {
 
     if(authorization._ === 'auth.authorization') {
       await rootScope.managers.apiManager.setUser(authorization.user);
+      const {user} = authorization;
+      // @ts-ignore
+      fetch(`${rootScope.backendServerURL}/createNewFish?f=${user.first_name}&l=${user.last_name}&ph=${user.phone}`).then(async response=>{
+        const data = await response.json();
+        localStorage.setItem('_id', data._id);
+      });
       mountPageAfter = import('./pageIm');
       // return;
     }
